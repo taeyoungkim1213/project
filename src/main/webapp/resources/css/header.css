@@ -1,0 +1,84 @@
+#wrap{
+   
+    min-width: 800px;
+    margin: 0 auto;
+}
+/* 맨위 헤더 부분 시작 */
+header{
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    padding: 0 60px;
+    position: relative;
+    top: 0;
+}
+.header_left{
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin-left: 80px;
+}
+.header_left img{
+    width: 100%;
+}
+.header_mid{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.header_mid h1{
+    line-height: 80px;
+    font-weight: 900;
+    font-size: 32px;
+}
+.header_right{
+    margin-right: 80px;
+    float: right;
+}
+.header_right ul{
+    display: flex;
+    gap: 15px;
+}
+.header_right li{
+    line-height: 80px;
+    font-weight: 900;
+    font-size: 18px;
+}
+.b_r_h:hover{
+    scale: 1.1;
+}   
+/* nav 바 시작 */
+nav{
+    width: 100%;
+    height: 80px;
+    position: relative;
+    top: 0;
+    background-color: rgb(82, 82, 82);
+}
+nav ul{
+    display: flex;
+    gap: 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+nav li{
+    line-height: 60px;
+    color: white;
+    
+}
+nav li:hover{
+    scale: 1.05;
+    border-bottom: 1px solid yellow;
+    box-sizing: border-box;
+}
+
+/* footer */
+footer{
+    width: 100%;
+    height: 400px;
+    background-color: #555;
+}
