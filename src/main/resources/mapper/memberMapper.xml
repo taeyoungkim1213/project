@@ -39,6 +39,10 @@
     <select id="findIdByEmail" parameterType="String" resultType="member">
         SELECT * FROM member_table WHERE memberMobile = #{memberMobile}
     </select>
+    <!-- 이메일로 비밀번호 찾기-->
+    <select id="findPwByEmail" parameterType="String" resultType="member">
+        SELECT * FROM member_table WHERE memberEmail = #{memberEmail}
+    </select>
 
 
 

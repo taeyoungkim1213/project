@@ -46,4 +46,10 @@ public class MemberDAO {
     public MemberDTO findIdByEmail(String memberMobile) {
         return sql.selectOne("Member.findIdByEmail",memberMobile);
     }
+    //이메일로 비밀번호 찾기
+    public MemberDTO findPwByEmail(String memberEmail) {
+        return sql.selectOne("Member.findPwByEmail", memberEmail);
+    }
+
+
 }

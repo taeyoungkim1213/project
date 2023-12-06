@@ -62,5 +62,9 @@ public class MemberService {
     public MemberDTO findIdByEmail(String memberMobile) {
         return memberdao.findIdByEmail(memberMobile);
     }
+    //이메일로 비밀번호 찾기
+    public MemberDTO findPwByEmail(String memberEmail){
+        return memberdao.findPwByEmail(memberEmail);
+    }
 
 }

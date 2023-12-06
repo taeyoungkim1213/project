@@ -20,10 +20,18 @@
     <header>
         <div class="header_left">
             <a href="<c:url value='/'/> "><img src="<c:url value='/img/커뮤니티로고.png' />" alt=""></a></div>
-        <div class="header_mid"><h1>FREE COMUNITY</h1></div>
+        <div class="header_mid"><h1><a href="/">FREE COMUNITY</a></h1></div>
         <div class="header_right">
             <ul>
-                <li>${userId}님 환영합니다</li>
+                <%-- 로그인이 되어 있을 때 --%>
+                <c:if test="${not empty sessionScope.loginEmail}">
+                    <li>${userId}님 환영합니다</li>
+                </c:if>
+                <%-- 로그인이 안 되어 있을 때 --%>
+                <c:if test="${empty sessionScope.loginEmail}">
+                    <li>로그인을 해주세요</li>
+                </c:if>
+
                 <li><a href="<c:url value='${ logInOutLink }' />">${ logInOutTxt }</a></li>
                 <!-- 로그인 되있으면 로그아웃. -->
 
@@ -36,8 +44,11 @@
             <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
             <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
             <!-- 로그인 됬을떄 보이게 -->
-            <a href="<c:url value='/mypage'/> "><li>마이페이지</li></a>
+            <a href="<c:url value='/member/mypage'/> "><li>마이페이지</li></a>
             <!-- 관리자한테는 회원정보리스트 보이게 -->
+            <c:if test="${loginEmail eq 'admin@admin.com'}">
+                <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
+            </c:if>
         </ul>
     </nav>
 
@@ -65,11 +76,13 @@
                 </div>
                 <div class="membername">
                     <label for="nameCheck">닉네임</label>
-                    <input type="text" id="nameCheck" class="Check" name="memberName" placeholder="활동할 닉네임">
+                    <input type="text" id="nameCheck" class="Check" name="memberName" placeholder="닉네임(10글자 이내)" maxlength="10">
+                    <div id="nameCheckError" class="error"></div>
                 </div>
                 <div class="memberphon">
                     <label for="phonCheck">전화번호</label>
-                    <input class="Check" id="phonCheck" type="text" name="memberMobile" placeholder="전화번호">
+                    <input class="Check" id="phonCheck" type="text" name="memberMobile" placeholder="ex)010-1234-5678">
+                    <div id="phonCheckError" class="error"></div>
                 </div>
 
 
@@ -94,6 +107,14 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
+    const validatePhoneNumber = (phoneNumber) => {
+        // 전화번호 형식에 맞는지 확인하는 정규식
+        const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+        return phoneRegex.test(phoneNumber);
+    };
+
+
+
     const emailCheck = () => {
         const email = document.getElementById("memberEmail").value;
         const checkResult = document.getElementById("check-result");
@@ -103,7 +124,8 @@
             checkResult.innerHTML = "올바른 이메일 형식이 아닙니다.";
             return;
         }
-        console.log("입력한 이메일", email);
+
+
         $.ajax({
             // 요청방식: post, url: "email-check", 데이터: 이메일
             type: "post",
@@ -140,33 +162,56 @@
         var repwd = document.getElementById('pwCheck');
         var error_repwd =  document.getElementById('pwCheckError');
 
+        var name = document.getElementById('nameCheck');
+        var error_name =  document.getElementById('nameCheckError');
+
+        var phon = document.getElementById('phonCheck');
+        var error_phon =  document.getElementById('phonCheckError');
+
         if (pwd.value == "") {
             // alert("비밀번호를 입력하세요.");
             error_pwd.innerHTML = '비밀번호를 입력하세요.'
             pwd.focus();
             return false;
-        };
+        }
 
         //비밀번호 영문자+숫자+특수조합(8~25자리 입력)
         var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
         if (!pwdCheck.test(pwd.value)) {
-            // alert("비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.");
             error_pwd.innerHTML = '비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.'
             pwd.focus();
             return false;
-        };
+        }
 
         if (repwd.value !== pwd.value) {
-            // alert("비밀번호가 일치하지 않습니다..");
             error_repwd.innerHTML = '비밀번호가 일치하지 않습니다.'
             repwd.focus();
             return false;
-        };
+        }
+        if (name.value.trim() == "") {
+            error_name.innerHTML = '닉네임을 입력해주세요.'
+            repwd.focus();
+            return false;
+        }
+        if (phon.value.trim() == "") {
+            error_phon.innerHTML = '전화번호를 입력해주세요.'
+            repwd.focus();
+            return false;
+        }
+        if (!validatePhoneNumber(document.getElementById('phonCheck').value)) {
+            error_phon.innerHTML = '올바른 전화번호 형식이 아닙니다. ex)010-1234-5678';
+            document.getElementById('phonCheck').focus();
+            return false;
+        }
+
+
 
 
         // document.join_form.submit();
     }
+
+
 
 </script>
 </body>

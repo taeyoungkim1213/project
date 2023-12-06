@@ -52,11 +52,11 @@
 
     <main>
         <div class="find_email">
-            <h2>전화번호로 이메일 찾기</h2>
-            <form id="findEmailForm" onsubmit="return findEmail()">
+            <h2>이메일로 비밀번호 찾기</h2>
+            <form id="findEmailForm" onsubmit="return findPw()">
                 <div class="phone_number">
-                    <label class="phon_lable" for="phoneNumber">사용자의 전화번호</label>
-                    <input type="text" class="phone" id="phoneNumber" name="memberMobile" placeholder="전화번호를 입력하세요">
+                    <label class="phon_lable" for="memberEmail">사용자의 이메일</label>
+                    <input type="text" class="phone" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요.">
                 </div>
                 <div class="submit_button">
                     <button class="sum_btn" type="submit">찾기</button>
@@ -70,11 +70,11 @@
 </div>
 <script>
 
-        const findEmail = () => {
-            const phoneNumber = document.getElementById("phoneNumber").value;
+        const findPw = () => {
+            const memberEmail = document.getElementById("memberEmail").value;
             let erMsg = document.getElementById("ermsg")
             //공백제거
-            if (phoneNumber.trim() === "") {
+            if (memberEmail.trim() === "") {
                 erMsg.innerText = "이메일을 입력하세요.";
                 return;
             }else {
@@ -83,9 +83,9 @@
 
             $.ajax({
                 type: "post",
-                url: "/member/findById",
+                url: "/member/findPw",
                 data: {
-                    "memberMobile": phoneNumber
+                    "memberEmail": memberEmail
                 },
                 success: function(res) {
                     document.getElementById("emailResult").innerHTML = res;
@@ -98,8 +98,9 @@
         };
 
         $('#findEmailForm').submit(function(event) {
+
             event.preventDefault(); // 기본 form submit 동작 방지
-            findEmail(); // findEmail 함수 호출
+            findPw();
         });
 
 

@@ -68,6 +68,7 @@ nav ul{
 nav li{
     line-height: 60px;
     color: white;
+    cursor: pointer;
     
 }
 nav li:hover{
