@@ -15,8 +15,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<%-- 로그인이 안 되어 있을 때 --%>
-    <button onclick="update()">내정보 수정하기</button>
 <div id="wrap">
     <header>
         <div class="header_left">
@@ -44,7 +42,7 @@
             <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
             <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
             <!-- 로그인 됬을떄 보이게 -->
-            <a href="<c:url value='/member/mypage'/> "><li>마이페이지</li></a>
+            <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
             <!-- 관리자한테는 회원정보리스트 보이게 -->
             <c:if test="${loginEmail eq 'admin@admin.com'}">
                 <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
@@ -65,9 +63,4 @@
 </div>
 
 </body>
-<script>
-    const update = () => {
-        location.href = "/member/update";
-    }
-</script>
 </html>

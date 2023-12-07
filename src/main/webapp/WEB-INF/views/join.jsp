@@ -3,9 +3,9 @@
 <%@ page import="java.net.URLDecoder" %>
 
 <%@ page session="false" %> <%-- 이 페이지에서는 세션을 새로 생성 안하겠다 라는 뜻 --%>
-<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('id')==null?'/member/login':'/member/logout'}"/>
+<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'/member/login':'/member/logout'}"/>
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
-<c:set var="userId" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
+<c:set var="loginEmail" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
 
 <html>
 <head>
@@ -25,7 +25,7 @@
             <ul>
                 <%-- 로그인이 되어 있을 때 --%>
                 <c:if test="${not empty sessionScope.loginEmail}">
-                    <li>${userId}님 환영합니다</li>
+                    <li>${loginEmail}님 환영합니다</li>
                 </c:if>
                 <%-- 로그인이 안 되어 있을 때 --%>
                 <c:if test="${empty sessionScope.loginEmail}">
@@ -44,7 +44,7 @@
             <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
             <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
             <!-- 로그인 됬을떄 보이게 -->
-            <a href="<c:url value='/member/mypage'/> "><li>마이페이지</li></a>
+            <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
             <!-- 관리자한테는 회원정보리스트 보이게 -->
             <c:if test="${loginEmail eq 'admin@admin.com'}">
                 <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
@@ -78,6 +78,11 @@
                     <label for="nameCheck">닉네임</label>
                     <input type="text" id="nameCheck" class="Check" name="memberName" placeholder="닉네임(10글자 이내)" maxlength="10">
                     <div id="nameCheckError" class="error"></div>
+                </div>
+                <div class="memberage">
+                    <label for="ageCheck">나이</label>
+                    <input type="text" id="ageCheck" class="Check" name="memberAge" placeholder="ex) 25" maxlength="8">
+                    <div id="ageCheckError" class="error"></div>
                 </div>
                 <div class="memberphon">
                     <label for="phonCheck">전화번호</label>
@@ -168,6 +173,9 @@
         var phon = document.getElementById('phonCheck');
         var error_phon =  document.getElementById('phonCheckError');
 
+        var age = document.getElementById('ageCheck');
+        var error_age =  document.getElementById('ageCheckError');
+
         if (pwd.value == "") {
             // alert("비밀번호를 입력하세요.");
             error_pwd.innerHTML = '비밀번호를 입력하세요.'
@@ -196,6 +204,11 @@
         }
         if (phon.value.trim() == "") {
             error_phon.innerHTML = '전화번호를 입력해주세요.'
+            repwd.focus();
+            return false;
+        }
+        if (age.value.trim() == "") {
+            error_age.innerHTML = '나이를 입력해주세요.'
             repwd.focus();
             return false;
         }

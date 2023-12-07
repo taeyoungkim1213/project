@@ -3,9 +3,9 @@
 <%@ page import="java.net.URLDecoder" %>
 
 <%@ page session="false" %> <%-- 이 페이지에서는 세션을 새로 생성 안하겠다 라는 뜻 --%>
-<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('id')==null?'/member/login':'/member/logout'}"/>
+<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'/member/login':'/member/logout'}"/>
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
-<c:set var="userId" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
+<c:set var="loginEmail" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
 
 <html>
 <head>
@@ -25,7 +25,7 @@
             <ul>
                 <%-- 로그인이 되어 있을 때 --%>
                 <c:if test="${not empty sessionScope.loginEmail}">
-                    <li>${userId}님 환영합니다</li>
+                    <li>${loginEmail}님 환영합니다</li>
                 </c:if>
                 <%-- 로그인이 안 되어 있을 때 --%>
                 <c:if test="${empty sessionScope.loginEmail}">
@@ -43,7 +43,7 @@
             <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
             <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
             <!-- 로그인 됬을떄 보이게 -->
-            <a href="<c:url value='/member/mypage'/> "><li>마이페이지</li></a>
+            <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
             <!-- 관리자한테는 회원정보리스트 보이게 -->
             <c:if test="${loginEmail eq 'admin@admin.com'}">
                 <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
@@ -63,12 +63,13 @@
                     <input type="text" id="loginid" name="memberEmail" placeholder="아이디(e-mail)을 입력해 주세요">
                     <label for="loginpw">비밀번호</label>
                     <input type="password" id="loginpw" name="memberPassword" placeholder="비밀번호를 입력해 주세요">
+                    <div class="rememberMe" ${empty cookie.id.value?"":"checked"}><input style="width: 15px;height: 15px" type="checkbox" id="rememberMe" name="rememberMe"><label for="rememberMe">아이디 기억하기</label></div>
+                    <input class="prevpage" type="hidden" name="prevPage" value="${param.prevPage}" >
                     <ul>
                         <li><a href="<c:url value='/member/findById'/> ">아이디 찾기ㅣ</a></li>
                         <li><a href="<c:url value='/member/findPw'/> ">비밀번호 찾기</a></li>
                         <li><a href="<c:url value="/member/join"/>">회원가입</a></li>
                     </ul>
-
                     <button type="submit">로그인</button>
                 </fieldset>
             </form>
@@ -119,6 +120,7 @@
 
         return false; // 폼이 실제로 서버로 전송되는 것을 막음
     };
+
 </script>
 </body>
 

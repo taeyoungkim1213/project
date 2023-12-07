@@ -8,8 +8,8 @@
 <c:set var="loginEmail" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'':pageContext.request.getSession(false).getAttribute('loginEmail')}" />
 <html>
 <head>
-    <title>회원 정보 관리</title>
-    <link rel="stylesheet" href="<c:url value='/css/userlist.css' />">
+    <title>회원조회</title>
+    <link rel="stylesheet" href="<c:url value='/css/userinfo.css' />">
     <link rel="stylesheet" href="<c:url value='/css/header.css' />">
     <link rel="stylesheet" href="<c:url value='/css/common.css' />">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -49,44 +49,35 @@
     </ul>
 </nav>
 
-   <main>
-       <table>
-           <tr>
-               <th>고유id</th>
-               <th>이메일</th>
-               <th>비밀번호</th>
-               <th>닉네임</th>
-               <th>나이</th>
-               <th>전화번호</th>
-               <th>사용자 정보 조회</th>
-               <th>삭제</th>
-           </tr>
-           <c:forEach items="${memberList}" var="member">
-               <tr>
-                   <td>${member.id}</td>
-                   <td>
-
-                       <a href="/member?id=${member.id}">${member.memberEmail}</a>
-                   </td>
-                   <td>${member.memberPassword}</td>
-                   <td>${member.memberName}</td>
-                   <td>${member.memberAge}</td>
-                   <td>${member.memberMobile}</td>
-                   <td>
-                       <a href="/member?id=${member.id}">조회</a>
-                   </td>
-                   <td>
-                       <button onclick="deleteMember('${member.id}')">삭제</button>
-                   </td>
-               </tr>
-           </c:forEach>
-       </table>
-   </main>
+    <main>
+        <ul>
+            <li class="title"><div><b> ${member.memberName} 님 조회</b></div></li>
+            <li>
+                <div><h1>id</h1></div>
+                <div><p>${member.id}</p></div>
+            </li>
+            <li>
+                <div><h1>이메일(아이디)</h1></div>
+                <div><p>${member.memberEmail}</p></div>
+            </li>
+            <li>
+                <div><h1>비밀번호</h1></div>
+                <div><p>${member.memberPassword}</p></div>
+            </li>
+            <li>
+                <div><h1>닉네임</h1></div>
+                <div><p>${member.memberName}</p></div>
+            </li>
+            <li>
+                <div><h1>나이</h1></div>
+                <div><p>${member.memberAge}</p></div>
+            </li>
+            <li>
+                <div><h1>전화번호</h1></div>
+                <div><p>${member.memberMobile}</p></div>
+            </li>
+        </ul>
+    </main>
+    <footer></footer>
 </body>
-<script>
-    const deleteMember = (id) => {
-        console.log(id);
-        location.href = "/admin/member/delete?id="+id;
-    }
-</script>
 </html>

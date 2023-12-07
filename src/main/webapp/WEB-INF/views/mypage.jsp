@@ -43,7 +43,7 @@
 			<a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
 			<a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
 			<!-- 로그인 됬을떄 보이게 -->
-			<a href="<c:url value='/member/mypage'/> "><li>마이페이지</li></a>
+			<a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
 			<!-- 관리자한테는 회원정보리스트 보이게 -->
 		</ul>
 	</nav>
