@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitstudy.app.mapper.BoardMapper">
+    <!-- 게시글 작성 -->
+    <insert id="insert" parameterType="board">
+        insert into board_table (boardWriter, boardTitle, boardContents, boardPrice,saleStatus,boardFileName,boardFileDB)
+        values (#{boardWriter}, #{boardTitle}, #{boardContents}, #{boardPrice},#{saleStatus}, #{boardFileName},
+        #{boardFileDB})
+    </insert>
+
+    <!-- 글 목록 작성일 순으로 전체조회 -->
+    <select id="findAll" resultType="board">
+        select * from board_table order by boardId desc
+    </select>
+
+    <!-- 금액 오름차순 정렬 -->
+    <select id="findAllOrderByPriceAsc" resultType="board">
+        select * from board_table order by boardPrice asc
+    </select>
+
+    <!-- 금액 내림차순 정렬 -->
+    <select id="findAllOrderByPriceDesc" resultType="board">
+        select * from board_table order by boardPrice desc
+    </select>
+
+    <!-- 키워드로 상품 검색 -->
+    <select id="findByKeyword" parameterType="String" resultType="board">
+        select * from board_table
+        where boardTitle like '%' || #{keyword} || '%'
+        or boardContents like '%' || #{keyword} || '%'
+    </select>
+
+    <!--      아이디 하나 조회-->
+    <select id="findById" parameterType="int" resultType="board">
+        select * from board_table where boardId=#{boardId}
+    </select>
+
+    <!-- 글 조회수 증가 -->
+    <update id="updateHits" parameterType="int">
+        update board_table set boardHits = boardHits + 1 where boardId=#{boardId}
+    </update>
+
+    <!-- 글 수정 -->
+    <update id="update" parameterType="board">
+        update board_table
+        set boardWriter = #{boardWriter},
+        boardTitle = #{boardTitle},
+        boardContents = #{boardContents},
+        boardPrice = #{boardPrice},
+        saleStatus = #{saleStatus},
+        boardFileName = #{boardFileName},
+        boardFileDB = #{boardFileDB}
+        where boardId = #{boardId}
+    </update>
+
+    <!-- 글 삭제 -->
+    <delete id="delete" parameterType="int">
+        delete from board_table
+        where boardId = #{boardId}
+    </delete>
+
+    <!-- 판매상태 변경 -->
+    <update id="updateSaleStatus" parameterType="board">
+        update board_table
+        set saleStatus = #{saleStatus}
+        where boardId = #{boardId}
+    </update>
+
+    <!--페이징 처리를 위한 mapper-->
+
+    <!--게시물 갯수 조회-->
+    <select id="boardCount" resultType="Integer">
+        select count(boardId) from board_table
+    </select>
+
+    <!-- 페이징 리스트 조회-->
+    <select id="pagingList" parameterType="java.util.HashMap" resultType="board">
+        select * from board_table order by boardId desc limit #{start}, #{limit}
+    </select>
+
+    <!--페이징 처리를 위한 mapper-->
+
+
+
+
+</mapper>

@@ -182,7 +182,7 @@
             if (result) {
                 return "redirect:/member?id=" + memberDTO.getId();
             } else {
-                return "index";
+                return "home";
             }
         }
 
