@@ -6,6 +6,7 @@
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
 <c:set var="loginEmail" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
 <c:set var="loginEmail" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'':pageContext.request.getSession(false).getAttribute('loginEmail')}" />
+<c:set var="memberName" value="${ pageContext.request.getSession(false).getAttribute('memberName')==null?'':pageContext.request.getSession(false).getAttribute('memberName')}" />
 <html>
 <head>
     <title>글작성</title>
@@ -23,7 +24,7 @@
         <ul>
             <%-- 로그인이 되어 있을 때 --%>
             <c:if test="${not empty sessionScope.loginEmail}">
-                <li>${loginEmail}님 환영합니다</li>
+               <li>${memberName}님 환영합니다</li>
             </c:if>
             <%-- 로그인이 안 되어 있을 때 --%>
             <c:if test="${empty sessionScope.loginEmail}">
@@ -38,7 +39,7 @@
 </header>
 <nav>
     <ul>
-        <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
+        <a href="<c:url value='/board/'/> "><li>커뮤니티 게시판</li></a>
         <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
         <!-- 로그인 됬을떄 보이게 -->
         <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
@@ -54,7 +55,7 @@
         <div class="info">
             <!-- 작성자 정보 -->
             <input type="hidden" name="boardWriter" readonly value="${loginEmail}">
-            <b class="writer_u">작성자 : ${loginEmail}</b>
+            <b class="writer_u">작성자 : ${memberName}</b>
         </div>
         <!-- 게시글 작성 폼 -->
         <div class="flex_con">

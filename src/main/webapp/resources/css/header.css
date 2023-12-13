@@ -1,25 +1,25 @@
-#wrap{
-   
-    min-width: 800px;
-    margin: 0 auto;
-}
+
 /* 맨위 헤더 부분 시작 */
 header{
-    width: 100%;
+    max-width: 1400px;
+    min-width: 800px;
     height: 80px;
     box-sizing: border-box;
-    padding: 0 60px;
+    /*padding: 0 60px;*/
     position: relative;
     top: 0;
+
+    margin: 0 auto;
 }
 .header_left{
-    width: 80px;
-    height: 80px;
+    width: 140px;
+    height: 100%;
     float: left;
     margin-left: 80px;
 }
 .header_left img{
     width: 100%;
+    height: 100%;
 }
 .header_mid{
     position: absolute;
@@ -51,10 +51,10 @@ header{
 /* nav 바 시작 */
 nav{
     width: 100%;
-    height: 80px;
+    height: 50px;
     position: relative;
     top: 0;
-    background-color: rgb(82, 82, 82);
+    background-color: #31304D
 }
 nav ul{
     display: flex;
@@ -66,20 +66,35 @@ nav ul{
     transform: translate(-50%,-50%);
 }
 nav li{
-    line-height: 60px;
+    line-height: 40px;
     color: white;
     cursor: pointer;
-    
+    border-bottom: 3px solid transparent;
+
 }
-nav li:hover{
+/*nav li:hover{*/
+/*    scale: 1.05;*/
+/*    border-bottom: 3px solid #fff;*/
+/*    box-sizing: border-box;*/
+/*}*/
+nav li:nth-child(1):hover{
     scale: 1.05;
-    border-bottom: 1px solid yellow;
+    border-bottom: 3px solid #fff;
+    box-sizing: border-box;
+}
+nav li:nth-child(2):hover{
+    scale: 1.05;
+    border-bottom: 3px solid #fff;
+    box-sizing: border-box;
+}
+nav li:nth-child(3):hover{
+    scale: 1.05;
+    border-bottom: 3px solid #fff;
+    box-sizing: border-box;
+}
+nav li:nth-child(4):hover{
+    scale: 1.05;
+    border-bottom: 3px solid #fff;
     box-sizing: border-box;
 }
 
-/* footer */
-footer{
-    width: 100%;
-    height: 400px;
-    background-color: #555;
-}

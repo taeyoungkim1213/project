@@ -1,6 +1,7 @@
 package com.bitstudy.app.controller;
 
 import com.bitstudy.app.domain.BoardDTO;
+import com.bitstudy.app.domain.MemberDTO;
 import com.bitstudy.app.domain.ReviewPageDto;
 import com.bitstudy.app.service.BoardService;
 import kr.co.util.FileUtil;
@@ -27,8 +28,11 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/save")
-    public String getsave(Model model, HttpSession httpSession) {
+    public String getsave(Model model, HttpSession httpSession, MemberDTO memberDTO) {
+        String MemberDTO = (String) httpSession.getAttribute("MemberDTO");
+
         BoardDTO boardDTO =new BoardDTO();
+        boardDTO.setBoardWriter(memberDTO.getMemberName());
         model.addAttribute("boardDTO",boardDTO);
         //로그인 유효성검사
         String loginEmail = (String) httpSession.getAttribute("loginEmail");
@@ -86,7 +90,8 @@ public class BoardController {
 
 
     // 처음 페이지 요청은 1페이지를 보여줌
-    @GetMapping("/paging") //최근순
+    //detail 에서 목록으로 돌아가기
+    @GetMapping("/") //최근순
     public String paging(Model model,
                          @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 
@@ -97,6 +102,43 @@ public class BoardController {
         model.addAttribute("paging", pageDTO);
         return "board_paging";
     }
+
+    @GetMapping
+    public String findById(@RequestParam("id") int id,
+                           @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                           Model model,
+                           HttpSession httpSession ) {
+        String loginId = (String) httpSession.getAttribute("loginEmail");
+            Integer viewedPostId = (Integer) httpSession.getAttribute("viewedPostId");
+
+        // 세션에 저장된 ID와 현재 조회하려는 게시글의 ID가 같지 않은 경우에만 조회수 증가 1회만 증가시키기위함.
+        if (loginId != null && (viewedPostId == null || !viewedPostId.equals(id)))  {
+            boardService.updateHits(id);
+
+            // 현재 조회 중인 게시글의 ID를 세션에 저장
+            httpSession.setAttribute("viewedPostId", id);
+        }
+        // 로그인 여부와 관계없이 게시글 정보를 가져옴
+        BoardDTO reviewDto = boardService.findById(id);
+
+        model.addAttribute("board", reviewDto);
+        model.addAttribute("page", page);
+//        List<ReviewCommentDto> reviewCommentDtoList = reviewCommentService.findAll(id);
+//        model.addAttribute("commentList", reviewCommentDtoList);
+
+        if (loginId != null) {
+            return "detail";
+        } else {
+            // 로그인되지 않은 사용자는 로그인 페이지로 리다이렉트
+            return "redirect:/member/login";
+        }
+    }
+    // /board/paging?page=2
+    // 처음 페이지 요청은 1페이지를 보여줌
+
+
+
+
 
 }
 

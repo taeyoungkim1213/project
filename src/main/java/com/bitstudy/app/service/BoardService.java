@@ -38,8 +38,8 @@ public class BoardService {
         return boardDAO.findBoardsByKeyword(keyword);
     }
 
-    public BoardDTO findBoardById(int boardId) {
-        return boardDAO.findBoardById(boardId);
+    public BoardDTO findById(int boardId) {
+        return boardDAO.findById(boardId);
     }
 
     public int updateHits(int boardId) {

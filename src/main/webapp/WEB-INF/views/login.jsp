@@ -17,66 +17,36 @@
 </head>
 <body>
 <div id="wrap">
-    <header>
-        <div class="header_left">
-            <a href="<c:url value='/'/> "><img src="<c:url value='/img/커뮤니티로고.png' />" alt=""></a></div>
-        <div class="header_mid"><h1><a href="/">FREE COMUNITY</a></h1></div>
-        <div class="header_right">
-            <ul>
-                <%-- 로그인이 되어 있을 때 --%>
-                <c:if test="${not empty sessionScope.loginEmail}">
-                    <li>${loginEmail}님 환영합니다</li>
-                </c:if>
-                <%-- 로그인이 안 되어 있을 때 --%>
-                <c:if test="${empty sessionScope.loginEmail}">
-                    <li>로그인을 해주세요</li>
-                </c:if>
-                <li><a href="<c:url value='${ logInOutLink }' />">${ logInOutTxt }</a></li>
-                <!-- 로그인 되있으면 로그아웃. -->
-
-                <a href="<c:url value='/member/join' /> "><li  class="b_r_h">회원가입</li></a>
-            </ul>
-        </div>
-    </header>
-    <nav>
-        <ul>
-            <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
-            <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
-            <!-- 로그인 됬을떄 보이게 -->
-            <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
-            <!-- 관리자한테는 회원정보리스트 보이게 -->
-            <c:if test="${loginEmail eq 'admin@admin.com'}">
-                <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
-            </c:if>
-        </ul>
-    </nav>
-
+    <jsp:include page="include/header.jsp" flush="false" />
     <main>
         <div class="loginbox">
-            <h2>로그인</h2>
+            <p class="loginbox_txt">로그인</p>
             <!-- 에러 메시지 출력 -->
             <p style="color: red;text-align: center;">${errorMessage}</p>
             <form action="/member/login" method="post">
                 <fieldset>
                     <legend>로그인 구역</legend>
-                    <label for="loginid">아이디(e-mail)</label>
+                    <label for="loginid">아이디</label>
                     <input type="text" id="loginid" name="memberEmail" placeholder="아이디(e-mail)을 입력해 주세요">
                     <label for="loginpw">비밀번호</label>
                     <input type="password" id="loginpw" name="memberPassword" placeholder="비밀번호를 입력해 주세요">
-                    <div class="rememberMe" ${empty cookie.id.value?"":"checked"}><input style="width: 15px;height: 15px" type="checkbox" id="rememberMe" name="rememberMe"><label for="rememberMe">아이디 기억하기</label></div>
-                    <input class="prevpage" type="hidden" name="prevPage" value="${param.prevPage}" >
-                    <ul>
-                        <li><a href="<c:url value='/member/findById'/> ">아이디 찾기ㅣ</a></li>
-                        <li><a href="<c:url value='/member/findPw'/> ">비밀번호 찾기</a></li>
-                        <li><a href="<c:url value="/member/join"/>">회원가입</a></li>
-                    </ul>
+                    <div class="rememberMe" ${empty cookie.id.value?"":"checked"}>
+                        <input style="width: 15px;height: 15px" type="checkbox" id="rememberMe" name="rememberMe">
+                        <label for="rememberMe">아이디 기억하기</label>
+                        <ul>
+                            <li><a href="<c:url value='/member/findById'/> ">아이디 찾기</a></li>
+                            <li><a href="<c:url value='/member/findPw'/> ">ㅣ비밀번호 찾기ㅣ</a></li>
+                            <li><a href="<c:url value="/member/join"/>">회원가입</a></li>
+                        </ul>
+                    </div>
+                    <input czlass="prevpage" type="hidden" name="prevPage" value="${param.prevPage}" >
                     <button type="submit">로그인</button>
                 </fieldset>
             </form>
         </div>
     </main>
 
-    <footer></footer>
+    <jsp:include page="include/footer.jsp" flush="false" />
 
 </div>
 <script>

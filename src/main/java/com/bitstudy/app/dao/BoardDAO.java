@@ -39,7 +39,7 @@ public class BoardDAO {
     }
 
     // 아이디로 게시글 조회
-    public BoardDTO findBoardById(int boardId) {
+    public BoardDTO findById(int boardId) {
         return sql.selectOne("com.bitstudy.app.mapper.BoardMapper.findById", boardId);
     }
 

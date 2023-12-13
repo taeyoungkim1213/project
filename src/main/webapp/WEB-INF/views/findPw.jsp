@@ -6,6 +6,7 @@
 <c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('id')==null?'/member/login':'/member/logout'}" />
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
 <c:set var="userId" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
+<c:set var="memberName" value="${ pageContext.request.getSession(false).getAttribute('memberName')==null?'':pageContext.request.getSession(false).getAttribute('memberName')}" />
 <html>
 <head>
     <title>main</title>
@@ -39,7 +40,7 @@
     </header>
     <nav>
         <ul>
-            <a href="<c:url value='/board'/> "><li>커뮤니티 게시판</li></a>
+            <a href="<c:url value='/board/'/> "><li>커뮤니티 게시판</li></a>
             <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
             <!-- 로그인 됬을떄 보이게 -->
             <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>

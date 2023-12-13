@@ -52,12 +52,17 @@
                             Model model,
                             HttpServletResponse response,
                             String prevPage) throws Exception {
-            boolean loginResult = memberService.login(memberDTO);
 
+            boolean loginResult = memberService.login(memberDTO);
             if (loginResult) { //로그인 성공시
                 model.addAttribute("prevPage", prevPage);
+                //닉네임 불러오기
+                memberService.findByMemberEmail(memberDTO.getMemberEmail()).getMemberName();
 
+                session.setAttribute("memberName",  memberService.findByMemberEmail(memberDTO.getMemberEmail()).getMemberName());
+                System.out.println(memberDTO.getMemberName());
                 session.setAttribute("loginEmail", memberDTO.getMemberEmail());
+
                 //아이디기억하기시 이메일(아이디) 쿠키생성
                 if (memberDTO.isRememberMe()){
                     Cookie rememberCookie = new Cookie("rememberCookie",memberDTO.getMemberEmail());
@@ -85,8 +90,8 @@
 
                 prevPage = prevPage.trim().replace(",", "");
 
-                /*바로 아래 본 prevPage 주소*/
-                prevPage = (prevPage == null || ("").equals(prevPage)) ? "/" : prevPage;
+                // prevPage가 null이거나 비어있으면 기본 페이지('/')로 설정
+                prevPage = (prevPage == null || prevPage.isEmpty()) ? "/" : prevPage.trim().replace(",", "");
 
                 return "redirect:"+prevPage;// 로그인 성공 시 홈페이지로 이동
 

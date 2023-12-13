@@ -8,6 +8,8 @@
         <!-- 별칭 정하는곳: 앞으로 UserDto 라고 하면 com.bitstudy.app.UserDto 로 알아들음 -->
         <typeAlias alias="member" type="com.bitstudy.app.domain.MemberDTO" />
         <typeAlias alias="board" type="com.bitstudy.app.domain.BoardDTO" />
+        <typeAlias alias="like" type="com.bitstudy.app.domain.BoardLikeDTO" />
+        <typeAlias alias="report" type="com.bitstudy.app.domain.BoardReportDTO" />
         <!--///////////////////////////////////////////////////////////////////////////-->
 
 
