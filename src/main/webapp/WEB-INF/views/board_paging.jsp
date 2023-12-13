@@ -68,9 +68,9 @@
                     <a href="/board?id=${board.boardId}&page=${paging.page}">
                         <div class="user_info">
                             <div class="user_info_name"><b class="writer_b">${board.boardWriter}님</b><b class="r_date">
-                                <fmt:formatDate value="${board.boardCreat}" pattern="MM-dd HH:mm" /></b> </div>
+                                <fmt:formatDate value="${board.boardCreate}" pattern="MM-dd HH:mm" /></b> </div>
                             <div class="user_info_start_travel"><!-- 여행 출발한 월 -->
-                                <span> 제목 : ${board.boardFileName}</span>
+                                <span> 제목 : ${board.boardTitle}</span>
                                 <!-- 상품 가격 -->
                                 <span>가격: ${board.boardPrice}</span>
                                 <!-- 판매 상태 -->
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="accompany_review_img">
-                            <img src="<c:url value='/upload/${board.mainImagePath}'/>" alt="이미지 설명" />
+                            <img src="<c:url value='/upload/${board.boardFileName}'/>" alt="이미지 설명" />
                         </div>
                         <div class="user_info_travelinfo">
                             <div class="user_info_travelinfo_content">
