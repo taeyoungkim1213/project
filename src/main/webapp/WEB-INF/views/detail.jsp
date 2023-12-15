@@ -9,7 +9,7 @@
 <c:set var="memberName" value="${ pageContext.request.getSession(false).getAttribute('memberName')==null?'':pageContext.request.getSession(false).getAttribute('memberName')}" />
 <html>
 <head>
-    <title>Title</title>
+    <title>상품 상세 내용</title>
 
     <link rel="stylesheet" href="<c:url value='/css/header.css' />">
     <link rel="stylesheet" href="<c:url value='/css/common.css' />">
@@ -97,8 +97,8 @@
 
 <div class="content_title_button">
     <button onclick="listFn()">목록</button>
-    <button class="btn_2" onclick="updateFn()" <c:if test="${board.boardWriter ne loginEmail}">style="display: none"</c:if> >수정</button>
-    <button onclick="deleteFn()" <c:if test="${board.boardWriter ne loginEmail}">style="display: none"</c:if> >삭제</button>
+    <button class="btn_2" onclick="updateFn()" <c:if test="${board.boardWriter ne memberName}">style="display: none"</c:if> >수정</button>
+    <button onclick="deleteFn()" <c:if test="${board.boardWriter ne memberName}">style="display: none"</c:if> >삭제</button>
 </div>
 
 <script>

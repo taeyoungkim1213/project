@@ -58,6 +58,10 @@ public class BoardDAO {
         return sql.delete("com.bitstudy.app.mapper.BoardMapper.delete", boardId);
     }
 
+    public String findMain(int boardID){
+        return sql.selectOne("com.bitstudy.app.mapper.BoardMapper.findMain",boardID);
+    }
+
     // 판매 상태 변경
     public int updateSaleStatus(BoardDTO boardDTO) {
         return sql.update("com.bitstudy.app.mapper.BoardMapper.updateSaleStatus", boardDTO);

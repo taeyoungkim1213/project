@@ -3,7 +3,9 @@ package com.bitstudy.app.controller;
 import com.bitstudy.app.domain.BoardDTO;
 import com.bitstudy.app.domain.MemberDTO;
 import com.bitstudy.app.domain.ReviewPageDto;
+import com.bitstudy.app.service.BoardLikeService;
 import com.bitstudy.app.service.BoardService;
+import com.sun.source.doctree.SeeTree;
 import kr.co.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,9 @@ public class BoardController {
 
     @Autowired
     BoardService boardService;
-
+    @Autowired
+    BoardLikeService boardLikeService;
+    /*글작성 보여주기*/
     @GetMapping("/save")
     public String getsave(Model model, HttpSession httpSession, MemberDTO memberDTO) {
         String MemberDTO = (String) httpSession.getAttribute("MemberDTO");
@@ -46,7 +50,7 @@ public class BoardController {
         }
 
     }
-
+    /*글작성 하기*/
     @PostMapping("/save") // 게시물 작성 post
     public ModelAndView Postsave(BoardDTO boardDTO,
                                  HttpServletRequest request,
@@ -56,7 +60,7 @@ public class BoardController {
         String realPath = request.getRealPath(path); //리얼주소
         String fileName = imageFile.getOriginalFilename(); //오리지날 이름
         System.out.println("realPath: " + realPath);
-        String defaultImage = "커뮤니티로고.png"; //기본이미지 설정.
+        String defaultImage = "logo.png"; //기본이미지 설정.
 
         //  realPath 경로에 해당하는 폴더가 없으면 폴더 생성
         File uploadDir = new File(realPath);
@@ -83,26 +87,13 @@ public class BoardController {
 
         boardService.insertBoard(boardDTO);
 
-        return new ModelAndView("redirect:/board/paging");
+        return new ModelAndView("redirect:/board/");
 
 
     }
 
 
-    // 처음 페이지 요청은 1페이지를 보여줌
-    //detail 에서 목록으로 돌아가기
-    @GetMapping("/") //최근순
-    public String paging(Model model,
-                         @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-
-        List<BoardDTO> boardDTOList = boardService.pagingList(page);
-
-        ReviewPageDto pageDTO = boardService.pagingParam(page);
-        model.addAttribute("boardList", boardDTOList);
-        model.addAttribute("paging", pageDTO);
-        return "board_paging";
-    }
-
+    /*상품 상세목록 보기*/
     @GetMapping
     public String findById(@RequestParam("id") int id,
                            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -133,11 +124,92 @@ public class BoardController {
             return "redirect:/member/login";
         }
     }
-    // /board/paging?page=2
+
     // 처음 페이지 요청은 1페이지를 보여줌
+    /*목록으로 돌아가기*/
+    @GetMapping("/") //최근순
+    public String paging(Model model,
+                         @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+        List<BoardDTO> boardDTOList = boardService.pagingList(page);
+
+        ReviewPageDto pageDTO = boardService.pagingParam(page);
+        model.addAttribute("boardList", boardDTOList);
+        model.addAttribute("paging", pageDTO);
+        return "board_paging";
+    }
+
+    /*글 수정하기*/
+    @GetMapping("/update")
+    public String getUpdate(@RequestParam("id") int id,Model model )    {
+        System.out.println(id);
+        BoardDTO boardDTO = boardService.findById(id);
+        System.out.println(boardDTO);
+
+        model.addAttribute("boardDTO",boardDTO);
+        return "board_update";
+    }
+
+    @PostMapping("/update")
+    public String update(BoardDTO boardDTO,
+                         MultipartFile imageFile) {
 
 
 
+
+
+
+
+    return "redirect:/board?id=" + boardDTO.getBoardId();
+    }
+
+    /*글 삭제하기*/
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") int id,
+                         HttpServletRequest request,
+                         HttpSession session,
+                         Model model) {
+        String userEmail = (String) session.getAttribute("loginEmail");
+        // 찜 여부 확인
+        boolean isLiked = boardLikeService.checkLikedStatus(userEmail, id);
+
+        if (isLiked) { //게시글 찜 했을 떄
+            // 찜을 취소합니다.
+            boardLikeService.unlikePost(userEmail, id);
+            String img_m = boardService.findMain(id);
+            // 메인 이미지 폴더에서 해당 이미지 파일 삭제
+            if (img_m != null){
+                String path = "resources/upload/"; //이미지 넣을 폴더
+                String realPath = request.getRealPath(path); //리얼주소
+                File file_m = new File(realPath+ "\\" + img_m); // 메인 이미지 경로에 대한 File 객체 생성
+                System.out.println(file_m);
+                if (file_m.exists()) {
+                    file_m.delete(); // 파일이 존재하면 삭제
+                }
+            }
+            boardService.deleteBoard(id);
+            return "redirect:/board/";
+        }
+        //찜안햇을떄
+        String img_m = boardService.findMain(id);
+        // 메인 이미지 폴더에서 해당 이미지 파일 삭제
+        if (img_m != null){
+            String path = "resources/upload/"; //이미지 넣을 폴더
+            String realPath = request.getRealPath(path); //리얼주소
+            File file_m = new File(realPath+ "\\" + img_m); // 메인 이미지 경로에 대한 File 객체 생성
+            System.out.println(file_m);
+            if (file_m.exists()) {
+                file_m.delete(); // 파일이 존재하면 삭제
+            }
+        }
+
+
+
+        boardService.deleteBoard(id);
+
+        return "redirect:/board/";
+
+    }
 
 
 }

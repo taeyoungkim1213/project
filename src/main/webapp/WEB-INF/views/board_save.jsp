@@ -54,7 +54,7 @@
     <form action="/board/save" method="post" enctype="multipart/form-data">
         <div class="info">
             <!-- 작성자 정보 -->
-            <input type="hidden" name="boardWriter" readonly value="${loginEmail}">
+            <input type="hidden" name="boardWriter" readonly value="${memberName}">
             <b class="writer_u">작성자 : ${memberName}</b>
         </div>
         <!-- 게시글 작성 폼 -->
@@ -68,7 +68,7 @@
                     <label for="saleStatus">판매 상태:</label>
                     <select name="saleStatus" id="saleStatus">
                         <option value="판매중">판매중</option>
-                        <option value="거래완료">거래완료</option>
+<%--                        <option value="거래완료">거래완료</option>--%>
                     </select>
                 </div>
                 <!-- 이미지 업로드 -->

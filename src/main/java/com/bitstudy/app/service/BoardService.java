@@ -53,6 +53,9 @@ public class BoardService {
     public int deleteBoard(int boardId) {
         return boardDAO.deleteBoard(boardId);
     }
+    public String findMain(int boardID){
+        return boardDAO.findMain(boardID);
+    }
 
     public int updateSaleStatus(int boardId, String saleStatus) {
         BoardDTO boardDTO = new BoardDTO();

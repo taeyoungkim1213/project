@@ -61,6 +61,12 @@
         delete from board_table
         where boardId = #{boardId}
     </delete>
+    
+    <!--id로 이미지 검색-->
+    <select id="findMain" parameterType="int" resultType="String">
+        select boardFileName from board_table
+        where boardId = #{boardId}
+    </select>
 
     <!-- 판매상태 변경 -->
     <update id="updateSaleStatus" parameterType="board">
