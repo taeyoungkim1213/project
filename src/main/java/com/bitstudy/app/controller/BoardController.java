@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.WebSocketHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,15 +26,23 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+    private final WebSocketHandler webSocketHandler;
+    //인스턴스로 주입
+    @Autowired
+    public BoardController(WebSocketHandler webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
+    }
 
     @Autowired
     BoardService boardService;
     @Autowired
     BoardLikeService boardLikeService;
+
+
+
     /*글작성 보여주기*/
     @GetMapping("/save")
     public String getsave(Model model, HttpSession httpSession, MemberDTO memberDTO) {
-        String MemberDTO = (String) httpSession.getAttribute("MemberDTO");
 
         BoardDTO boardDTO =new BoardDTO();
         boardDTO.setBoardWriter(memberDTO.getMemberName());
@@ -114,8 +123,7 @@ public class BoardController {
 
         model.addAttribute("board", reviewDto);
         model.addAttribute("page", page);
-//        List<ReviewCommentDto> reviewCommentDtoList = reviewCommentService.findAll(id);
-//        model.addAttribute("commentList", reviewCommentDtoList);
+
 
         if (loginId != null) {
             return "detail";
