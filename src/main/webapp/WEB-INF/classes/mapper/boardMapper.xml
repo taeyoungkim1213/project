@@ -29,8 +29,8 @@
     <!-- 키워드로 상품 검색 -->
     <select id="findByKeyword" parameterType="String" resultType="board">
         select * from board_table
-        where boardTitle like '%' || #{keyword} || '%'
-        or boardContents like '%' || #{keyword} || '%'
+        where boardTitle like '%' #{keyword} '%'
+        or boardContents like '%' #{keyword} '%'
     </select>
 
     <!--      아이디 하나 조회-->

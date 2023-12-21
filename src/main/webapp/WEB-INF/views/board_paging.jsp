@@ -51,7 +51,45 @@
     </ul>
 </nav>
 
-
+<form action="/board/search" method="GET">
+    <input type="text" name="keyword" placeholder="검색어 입력">
+    <input type="submit" value="검색">
+</form>
+<%-- 검색 결과 표시 부분 --%>
+<h2>검색 결과</h2>
+<c:if test="${not empty searchResults}">
+    <ul>
+        <c:forEach items="${searchResults}" var="result">
+            <li class="package_tour_review_li">
+                <a href="/board?id=${result.boardId}">
+                    <div class="user_info">
+                        <div class="user_info_name"><b class="writer_b">${result.boardWriter}님</b><b class="r_date">
+                            <fmt:formatDate value="${result.boardCreate}" pattern="MM-dd HH:mm" /></b> </div>
+                        <div class="user_info_start_travel"><!-- 여행 출발한 월 -->
+                            <span> 제목 : ${result.boardTitle}</span>
+                            <!-- 상품 가격 -->
+                            <span>가격: ${result.boardPrice}</span>
+                            <!-- 판매 상태 -->
+                            <span>상태: ${result.saleStatus}</span>
+                        </div>
+                    </div>
+                    <div class="accompany_review_img">
+                        <img src="<c:url value='/upload/${board.boardFileName}'/>" alt="이미지 설명" />
+                    </div>
+                    <div class="user_info_travelinfo">
+                        <div class="user_info_travelinfo_content">
+                            <p class="user_info_contents">내용 :  ${board.boardContents}</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </c:forEach>
+    </ul>
+</c:if>
+<c:if test="${empty searchResults}">
+    <p>검색 결과가 없습니다.</p>
+</c:if>
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 <div class="accompany_review review" id="accompany_review_review">
     <div class="orderby_desc">
         <button id="orderby_desc_btn_newest">

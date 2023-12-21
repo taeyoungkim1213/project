@@ -51,7 +51,7 @@
 </nav>
 
 <div class="save_review_content" id="save_review_content">
-    <form action="/board/save" method="post" enctype="multipart/form-data">
+    <form action="/board/save" id="frm" method="post" enctype="multipart/form-data">
         <div class="info">
             <!-- 작성자 정보 -->
             <input type="hidden" name="boardWriter" readonly value="${memberName}">
@@ -138,6 +138,37 @@
             reader.readAsDataURL(file);
         }
     }
+// form 요소 제출을 위한 함수
+function submitForm() {
+    let title = document.querySelector('.board_title').value;
+    let price = document.querySelector('input[name="boardPrice"]').value;
+    let contents = document.querySelector('.boardContents').value;
+
+    if (title.trim() === '' || price.trim() === '' || contents.trim() === '') {
+        alert("제목, 상품 가격, 내용을 모두 작성해주세요.");
+        return false; // form 제출 방지
+    }
+
+    if (isNaN(price)) {
+        alert("가격에는 숫자만 입력해주세요.");
+        return false; // form 제출 방지
+    }
+
+    return true; // form 제출
+}
+
+// form submit 이벤트 리스너
+document.getElementById('frm').addEventListener('submit', function(event) {
+    if (!submitForm()) {
+        event.preventDefault(); // form 제출 방지
+    }
+});
+
+// 가격 입력 필드에 숫자만 입력 받도록 제한
+document.querySelector('input[name="boardPrice"]').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 값은 삭제
+});
+
 </script>
 </body>
 </html>

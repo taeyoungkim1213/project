@@ -56,9 +56,11 @@
     <div class="info">
         <div class="content_info">
             <input type="hidden" name="boardWriter" placeholder="작성자" readonly value="${loginEmail}">
-            <p class="wirter_u"><b>작성자 :</b> ${memberName}</p>
+            <p class="wirter_u"><b>작성자 :</b> ${board.boardWriter}</p>
             <!-- 판매 상태 -->
             <span>상태: ${board.saleStatus}</span>
+            <!-- 상품 가격 -->
+            <p>가격: ${board.boardPrice}</p>
 <%--            이부분에 찜 하기 버튼 추가--%>
             <button id="likeButton" onclick="toggleLike()" style="background-color: ${isLiked ? 'yellow' : 'white'}">
                 ${isLiked ? '찜 취소' : '찜 하기'}

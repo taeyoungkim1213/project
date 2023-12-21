@@ -52,12 +52,13 @@ public class EchoHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessionList.add(session);
-        logger.info("{} 연결됨", session.getId());
+        logger.info("{} 연결됨", session.getAttributes().get("memberName"));
 
-        String memberName = (String) session.getAttributes().get("memberName");
-        if (memberName != null) {
-            session.getAttributes().put("memberName", memberName);
-            session.sendMessage(new TextMessage("user:" + memberName + " 님이 입장하셨습니다."));
+        //모든세션에 채팅 전달.
+        for (int i=0; i< sessionList.size();i++) {
+            WebSocketSession s = sessionList.get(i);
+            s.sendMessage(new TextMessage(": ["+session.getAttributes().get("memberName")+"님이 입장 했습니다.]"));
+
         }
 
         // ... (기타 로직)
@@ -66,10 +67,10 @@ public class EchoHandler extends TextWebSocketHandler {
     // 클라이언트가 웹소켓 서버로 메시지를 전송했을 때 실행
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-        // 모든 유저에게 메세지 출력
+        String sender = (String) session.getAttributes().get("memberName");
+        String messageToSend = "[" + sender + "]: " + message.getPayload(); // 작성자 식별자 추가
         for (WebSocketSession sess : sessionList) {
-            sess.sendMessage(new TextMessage(message.getPayload()));
+            sess.sendMessage(new TextMessage(messageToSend));
         }
     }
 
@@ -77,6 +78,6 @@ public class EchoHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessionList.remove(session);
-        logger.info("{} 연결 끊김.", session.getId());
+        logger.info("{} 연결 끊김.", session.getAttributes().get("memberName"));
     }
 }

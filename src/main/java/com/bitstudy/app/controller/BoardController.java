@@ -100,6 +100,12 @@ public class BoardController {
 
 
     }
+    @GetMapping("/search")
+    public String searchByKeyword(@RequestParam("keyword") String keyword, Model model) {
+        List<BoardDTO> searchResults = boardService.findBoardsByKeyword(keyword);
+        model.addAttribute("searchResults", searchResults);
+        return "board_paging";
+    }
 
 
     /*상품 상세목록 보기*/
@@ -150,9 +156,7 @@ public class BoardController {
     /*글 수정하기*/
     @GetMapping("/update")
     public String getUpdate(@RequestParam("id") int id,Model model )    {
-        System.out.println(id);
         BoardDTO boardDTO = boardService.findById(id);
-        System.out.println(boardDTO);
 
         model.addAttribute("boardDTO",boardDTO);
         return "board_update";
@@ -160,15 +164,44 @@ public class BoardController {
 
     @PostMapping("/update")
     public String update(BoardDTO boardDTO,
-                         MultipartFile imageFile) {
+                         @RequestParam("boardId") int id,
+                         MultipartFile imageFile,
+                         HttpServletRequest request
+                         ) throws Exception{
+        System.out.println(id);
+        String path = "resources/upload/"; //이미지 넣을 폴더
+        String realPath = request.getRealPath(path); //리얼주소
+        String fileName = imageFile.getOriginalFilename(); //오리지날 이름
 
+        //  realPath 경로에 해당하는 폴더가 없으면 폴더 생성
+        File uploadDir = new File(realPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+        //         이미지 파일인지 확인
+        if (imageFile != null || !imageFile.isEmpty() || !FileUtil.isImageFile(imageFile.getOriginalFilename())) {
+            // 이미지 파일이 선택되지 않았거나 선택된 파일이 이미지가 아닌 경우
+        }
 
+        if (imageFile!=null&&!imageFile.isEmpty()){
+            //저장하려는 파일 시스템의 실제위치와 파일명 찾기
+            String saveFileName = FileUtil.checkDuplicate(realPath + fileName);
+            //살제적인 파일로 저장
+            imageFile.transferTo(new File(saveFileName));
+            String uploadFileName = saveFileName.substring(saveFileName.lastIndexOf("\\") + 1); // d이름만 뽑음
+            boardDTO.setBoardFileName(uploadFileName);
+            boardDTO.setBoardFileDB(fileName);//오리지널이름
+        }else {
+            // 이미지 파일이 변경되지 않은 경우 원래꺼 그대로
+            BoardDTO boardDTO1 = boardService.findById(id);
+            boardDTO.setBoardFileName(boardDTO1.getBoardFileName());
+        }
 
-
-
-
-
-    return "redirect:/board?id=" + boardDTO.getBoardId();
+        boardDTO.setBoardId(id);
+        boardService.updateBoard(boardDTO);
+        System.out.println(boardDTO);
+//    return "redirect:/board?id=" + boardDTO.getBoardId();
+        return "redirect:/board/";
     }
 
     /*글 삭제하기*/

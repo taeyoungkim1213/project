@@ -21,9 +21,10 @@
 
     <main style="width: 100%; height: 1000px; border: 1px solid; box-sizing: border-box">
 
-        <form action="/board/update" method="post" enctype="multipart/form-data">
+        <form action="/board/update" id="frm" method="post" enctype="multipart/form-data">
         <%--추후 추가 할거 넣기--%>
         게시글 번호: ${boardDTO.boardId}
+            <input type="hidden" name="boardId" value="${boardDTO.boardId}">
             <input type="hidden" name="boardWriter" value="${boardDTO.boardWriter}">
 
            <p>작성자: ${boardDTO.boardWriter}</p>
@@ -64,6 +65,7 @@
             let contents = document.getElementById('boardContents').value
             let price = document.getElementById('boardPrice').value
             let salestatus = document.getElementById('saleStatus').value
+            let frm = document.getElementById('frm')
             if (title ==''){
                 alert("제목을 입력해주세요.")
                 return;
@@ -76,20 +78,27 @@
                 alert("가격을 입력해주세요")
                 return;
             }
-            if (salestatus == "거래완료"){
+            if (salestatus === "거래완료"){
                 if (confirm("거래완료시 게시글이 삭제됩니다. 진행하겠습니까?")){
-                    /*예/아니오*/
-                    if (확인){
-
-                    }
+                    // 여기에 게시글 삭제 로직 추가
+                    deleteFn(); // 게시글 삭제 함수 호출
+                    frm.submit();
+                    return;
                 }
                 return;
-
             }
 
             alert("게시글이 수정 되었습니다.")
-            // document.forms[0].submit();
+            frm.submit();
         }
+
+        const deleteFn = () => {
+            const id = '${boardDTO.boardId}';
+            alert("해당 게시글을 삭제하였습니다.")
+            location.href = "/board/delete?id=" + id;
+        }
+
+
 
         <%--    이미지미리보기--%>
         function checkFile(event) {

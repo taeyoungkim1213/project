@@ -27,21 +27,15 @@
 
 	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo" />
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
 		<websocket:sockjs />
 	</websocket:handlers>
 
 	<beans:bean id="echoHandler" class="com.bitstudy.app.controller.EchoHandler"></beans:bean>
 
 
-	<!--	<beans:bean id="uploadPath" class="java.lang.String">-->
-	<!--		<beans:constructor-arg value="C:\**\tripTeam\src\main\resources\file" />-->
-	<!--&lt;!&ndash;		C:\Users\kim tae young\OneDrive\바탕 화면\1team\tripTeam\src\main\resources\file&ndash;&gt;-->
-	<!--	</beans:bean>-->
-
-	<!--	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-	<!--		<beans:property name="maxUploadSize" value="31457280" /> &lt;!&ndash;약 10mb 제한 &ndash;&gt;-->
-	<!--		<beans:property name="defaultEncoding" value="utf-8" />    &lt;!&ndash; 인코딩 &ndash;&gt;-->
-	<!--	</beans:bean>-->
 
 
 
