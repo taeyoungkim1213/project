@@ -60,11 +60,24 @@
         </header>
         <nav>
             <ul>
-                <li><a href="<c:url value='/board/'/> ">커뮤니티 게시판</a></li>
-                <li><a href="<c:url value='/board/popul/'/> ">인기글 보기</a></li>
+                <li><a href="<c:url value='/board/'/> ">중고 상품 보기</a></li>
+                <c:choose>
+                    <c:when test="${empty sessionScope.loginEmail}">
+                        <li><a href="<c:url value='/member/login/'/>" onclick="showAlert()">내가 찜한 상품</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="<c:url value='/member/like/'/>">내가 찜한 상품</a></li>
+                    </c:otherwise>
+                </c:choose>
                 <li><a href="<c:url value='/member/update/'/> ">마이페이지</a></li>
 
             </ul>
         </nav>
+
+        <script>
+            function showAlert() {
+                alert("로그인이 필요한 기능입니다.");
+            }
+        </script>
 </body>
 </html>

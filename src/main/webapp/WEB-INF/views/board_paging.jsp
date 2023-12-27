@@ -62,10 +62,10 @@
 <div class="accompany_review review" id="accompany_review_review">
     <div class="orderby_desc">
         <button id="orderby_desc_btn_newest">
-            <span id="orderby_desc_title_newest"><a href="/board/paging">최신 순</a></span>
+            <span id="orderby_desc_title_newest"><a href="/board/price_asc">금액 높은 순</a></span>
         </button>
         <button id="orderby_desc_btn_popularity" >
-            <span id="orderby_desc_title_popularity"><a href="/board/paging2">인기 순</a></span>
+            <span id="orderby_desc_title_popularity"><a href="/board/price_desc">금액 낮은 순</a></span>
         </button>
     </div>
     <div id="sell_card">
@@ -76,7 +76,7 @@
                     <a href="/board?id=${board.boardId}&page=${paging.page}">
                         <div class="user_info_travelinfo">
                             <div class="user_info_travelinfo_content">
-                                <span>${board.boardTitle}</span>
+                                <span>${board.saleStatus}</span>
                             </div>
                         </div>
 
@@ -86,14 +86,14 @@
 
                         <div class="user_info">
                             <div class="user_info_name">
-                                <span class="user_info_contents">${board.boardContents}</span>
+                                <span>${board.boardTitle}</span>
                                 <span class="r_date">
                                 <fmt:formatDate value="${board.boardCreate}" pattern="MM월dd일 HH시" /></span>
                             </div>
 
                             <div class="user_info_start_travel"><!-- 여행 출발한 월 -->
                                 <!-- 판매 상태 -->
-                                <span>${board.saleStatus}</span>
+                                <span class="user_info_contents">${board.boardContents}</span>
                                 <!-- 상품 가격 -->
                                 <span>${board.boardPrice} 원</span>
                             </div>

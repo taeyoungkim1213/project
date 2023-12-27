@@ -26,6 +26,10 @@ public class BoardLikeController {
     @GetMapping("/member/like")
     public String memberLike(BoardDTO boardDTO,HttpSession session, Model model) {
         String userEmail = (String) session.getAttribute("loginEmail");
+        if(userEmail == null){
+            return "redirect:/member/login";
+        }
+
         List<BoardLikeDTO> boardLikeDTOS = boardLikeService.likelist(userEmail);
         System.out.println(boardLikeDTOS);
 

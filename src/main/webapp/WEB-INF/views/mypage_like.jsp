@@ -22,12 +22,19 @@
 
     <main style="width: 100%; height: 1000px; border: 1px solid; box-sizing: border-box">
         <%--추후 추가 할거 넣기--%>
-            <c:forEach items="${boardLikeDTOS}" var="boardLikeDTOS">
-                <a href="/board?id=${boardLikeDTOS.boardId}" >
-                    게시글번호: <b>${boardLikeDTOS.boardId}</b>
-                    작성자: <b>${boardLikeDTOS.userEmail}</b>
-                </a>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${empty boardLikeDTOS}">
+                    <p>찜한 상품이 없습니다.</p>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${boardLikeDTOS}" var="boardLikeDTO">
+                        <a href="/board?id=${boardLikeDTO.boardId}">
+                            게시글번호: <b>${boardLikeDTO.boardId}</b>
+                            작성자: <b>${boardLikeDTO.userEmail}</b>
+                        </a>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
 
     </main>
     <jsp:include page="include/footer.jsp" flush="false" />
