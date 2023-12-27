@@ -16,12 +16,21 @@
         select * from board_table order by boardId desc
     </select>
 
+    <!-- 금액 오름차순 정렬 -->
+    <select id="findAllOrderByPriceAsc" resultType="board">
+        select * from board_table order by boardPrice asc
+    </select>
+
+    <!-- 금액 내림차순 정렬 -->
+    <select id="findAllOrderByPriceDesc" resultType="board">
+        select * from board_table order by boardPrice desc
+    </select>
 
     <!-- 키워드로 상품 검색 -->
     <select id="findByKeyword" parameterType="String" resultType="board">
         select * from board_table
-        where boardTitle like '%' #{keyword} '%'
-        or boardContents like '%' #{keyword} '%'
+        where boardTitle like '%' || #{keyword} || '%'
+        or boardContents like '%' || #{keyword} || '%'
     </select>
 
     <!--      아이디 하나 조회-->
@@ -78,22 +87,7 @@
         select * from board_table order by boardId desc limit #{start}, #{limit}
     </select>
 
-    <!-- 금액 오름차순 정렬 -->
-    <select id="findAllOrderByPriceAsc" parameterType="java.util.HashMap" resultType="board">
-        select * from board_table order by boardPrice asc limit #{start}, #{limit}
-    </select>
-
-     <!-- 금액 내림차순 정렬 -->
-    <select id="findAllOrderByPriceDesc" parameterType="java.util.HashMap" resultType="board">
-        select * from board_table order by boardPrice desc limit #{start}, #{limit}
-    </select>
-
-
-    <!-- 사용자가 작성한 게시글 가져오기 -->
-    <select id="findBoardsByUserId" parameterType="String" resultType="board">
-        SELECT * FROM board_table WHERE boardWriter = #{userId}
-    </select>
-
+    <!--페이징 처리를 위한 mapper-->
 
 
 

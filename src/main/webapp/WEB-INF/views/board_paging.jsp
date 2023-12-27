@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.net.URLDecoder" %>
+<%@ page contentType="text/html;charset=utf-8"%>
 
 <c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'/member/login':'/member/logout'}" />
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
@@ -83,7 +84,7 @@
                     </div>
                 </a>
             </li>
-        </c:forEach>n
+        </c:forEach>
     </ul>
 </c:if>
 <c:if test="${empty searchResults}">
