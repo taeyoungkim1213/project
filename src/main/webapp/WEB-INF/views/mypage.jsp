@@ -18,36 +18,7 @@
 
 <button onclick="update()">내정보 수정하기</button>
 <div id="wrap">
-	<header>
-		<div class="header_left">
-			<a href="<c:url value='/'/> "><img src="<c:url value='/img/커뮤니티로고.png' />" alt=""></a></div>
-		<div class="header_mid"><h1><a href="/">FREE COMUNITY</a></h1></div>
-		<div class="header_right">
-			<ul>
-				<%-- 로그인이 되어 있을 때 --%>
-				<c:if test="${not empty sessionScope.loginEmail}">
-					<li>${userId}님 환영합니다</li>
-				</c:if>
-				<%-- 로그인이 안 되어 있을 때 --%>
-				<c:if test="${empty sessionScope.loginEmail}">
-					<li>로그인을 해주세요</li>
-				</c:if>
-				<li><a href="<c:url value='${ logInOutLink }' />">${ logInOutTxt }</a></li>
-				<!-- 로그인 되있으면 로그아웃. -->
-
-				<a href="<c:url value='/member/join' /> "><li  class="b_r_h">회원가입</li></a>
-			</ul>
-		</div>
-	</header>
-	<nav>
-		<ul>
-			<a href="<c:url value='/board/'/> "><li>커뮤니티 게시판</li></a>
-			<a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
-			<!-- 로그인 됬을떄 보이게 -->
-			<a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
-			<!-- 관리자한테는 회원정보리스트 보이게 -->
-		</ul>
-	</nav>
+	<jsp:include page="include/header.jsp" flush="false" />
 </div>
 
 </body>
