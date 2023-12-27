@@ -2,10 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.net.URLDecoder" %>
 
-<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('id')==null?'/member/login':'/member/logout'}" />
+<c:set var="logInOutLink" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'/member/login':'/member/logout'}" />
 <c:set var="logInOutTxt" value="${empty sessionScope.loginEmail ? '로그인' : '로그아웃'}" />
-<c:set var="userId" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<c:set var="loginEmail" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
+<c:set var="loginEmail" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'':pageContext.request.getSession(false).getAttribute('loginEmail')}" />
+<c:set var="memberName" value="${ pageContext.request.getSession(false).getAttribute('memberName')==null?'':pageContext.request.getSession(false).getAttribute('memberName')}" />
+<c:set var="kakao_Name" value="${ pageContext.request.getSession(false).getAttribute('kakao_Name')==null?'':pageContext.request.getSession(false).getAttribute('kakao_Name')}" />
 <html>
 <head>
     <title>Title</title>
@@ -26,6 +28,7 @@
                     <%-- 로그인이 안 되어 있을 때 --%>
                     <c:if test="${empty sessionScope.loginEmail}">
                         <li>로그인을 해주세요</li>
+                        ${kakao_Name}
                     </c:if>
                     <li><a href="<c:url value='${ logInOutLink }' />">${ logInOutTxt }</a></li>
                     <!-- 로그인 되있으면 로그아웃. -->
@@ -38,7 +41,7 @@
                 <li><a href="<c:url value='/board/'/> ">커뮤니티 게시판</a></li>
                 <li><a href="<c:url value='/board/popul/'/> ">인기글 보기</a></li>
                 <li><a href="<c:url value='/member/update/'/> ">마이페이지</a></li>
-                <c:if test="${loginEmail eq 'admin'}">
+                <c:if test="${loginEmail eq 'admin@admin.com'}">
                     <li><a href="<c:url value='/member/admin'/> ">관리자페이지</a></li>
                 </c:if>
             </ul>

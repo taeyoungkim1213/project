@@ -83,7 +83,7 @@
                     </div>
                 </a>
             </li>
-        </c:forEach>
+        </c:forEach>n
     </ul>
 </c:if>
 <c:if test="${empty searchResults}">
@@ -93,10 +93,10 @@
 <div class="accompany_review review" id="accompany_review_review">
     <div class="orderby_desc">
         <button id="orderby_desc_btn_newest">
-            <span id="orderby_desc_title_newest"><a href="/board/paging">최신 순</a></span>
+            <span id="orderby_desc_title_newest"><a href="/board/price_asc">금액 낮은 순</a></span>
         </button>
         <button id="orderby_desc_btn_popularity" >
-            <span id="orderby_desc_title_popularity"><a href="/board/paging2">인기 순</a></span>
+            <span id="orderby_desc_title_popularity"><a href="/board/price_desc">금액 높은 순</a></span>
         </button>
     </div>
     <div>

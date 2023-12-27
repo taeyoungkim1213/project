@@ -152,7 +152,28 @@ public class BoardController {
         model.addAttribute("paging", pageDTO);
         return "board_paging";
     }
+    @GetMapping("/price_asc") // 금액 오름차 순
+    public String price_asc(Model model,
+                         @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 
+        List<BoardDTO> boardDTOList = boardService.findAllOrderByPriceAsc(page);
+
+        ReviewPageDto pageDTO = boardService.pagingParam(page);
+        model.addAttribute("boardList", boardDTOList);
+        model.addAttribute("paging", pageDTO);
+        return "board_paging";
+    }
+    @GetMapping("/price_desc") // 금액 오름차 순
+    public String price_desc(Model model,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+        List<BoardDTO> boardDTOList = boardService.findAllOrderByPriceDesc(page);
+
+        ReviewPageDto pageDTO = boardService.pagingParam(page);
+        model.addAttribute("boardList", boardDTOList);
+        model.addAttribute("paging", pageDTO);
+        return "board_paging";
+    }
     /*글 수정하기*/
     @GetMapping("/update")
     public String getUpdate(@RequestParam("id") int id,Model model )    {

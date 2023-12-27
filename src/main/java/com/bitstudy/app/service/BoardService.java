@@ -26,13 +26,6 @@ public class BoardService {
         return boardDAO.findAllBoards();
     }
 
-    public List<BoardDTO> findAllBoardsOrderByPriceAsc() {
-        return boardDAO.findAllBoardsOrderByPriceAsc();
-    }
-
-    public List<BoardDTO> findAllBoardsOrderByPriceDesc() {
-        return boardDAO.findAllBoardsOrderByPriceDesc();
-    }
 
     public List<BoardDTO> findBoardsByKeyword(String keyword) {
         return boardDAO.findBoardsByKeyword(keyword);
@@ -56,6 +49,10 @@ public class BoardService {
     public String findMain(int boardID){
         return boardDAO.findMain(boardID);
     }
+    //내가 쓴 게시글 찾기
+    public List<BoardDTO> findBoardsByUserId(String userId){
+        return boardDAO.findBoardsByUserId(userId);
+    }
 
     public int updateSaleStatus(int boardId, String saleStatus) {
         BoardDTO boardDTO = new BoardDTO();
@@ -77,6 +74,24 @@ public class BoardService {
         pagingParams.put("limit", pageLimit);
         return boardDAO.pagingList(pagingParams);
     }
+
+    public List<BoardDTO> findAllOrderByPriceDesc(int page) {
+
+        int pagingStart = (page - 1) * pageLimit;
+        Map<String, Integer> pagingParams = new HashMap<>();
+        pagingParams.put("start", pagingStart);
+        pagingParams.put("limit", pageLimit);
+        return boardDAO.findAllBoardsOrderByPriceDesc(pagingParams);
+    }
+    public List<BoardDTO> findAllOrderByPriceAsc(int page) {
+
+        int pagingStart = (page - 1) * pageLimit;
+        Map<String, Integer> pagingParams = new HashMap<>();
+        pagingParams.put("start", pagingStart);
+        pagingParams.put("limit", pageLimit);
+        return boardDAO.findAllBoardsOrderByPriceAsc(pagingParams);
+    }
+
 
     public ReviewPageDto pagingParam(int page) {
         // 전체 글 갯수 조회

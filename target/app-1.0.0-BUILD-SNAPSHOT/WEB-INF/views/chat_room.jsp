@@ -31,7 +31,12 @@
 
 <input type="text" id="message" />
 <input type="button" id="sendBtn" value="채팅"/>
-<div id="messageArea"></div>
+
+<!-- 채팅 메시지 영역 등을 여기에 추가 -->
+<div id="messageArea">
+    <!-- 메시지 영역 -->
+
+</div>
 
 </body>
 <script type="text/javascript">
@@ -43,6 +48,7 @@
     let sock = new SockJS("http://localhost:8080/echo/");
     sock.onmessage = onMessage;
     sock.onclose = onClose;
+
     // 메시지 전송
     function sendMessage() {
         sock.send($("#message").val());
@@ -50,12 +56,28 @@
     // 서버로부터 메시지를 받았을 때
     function onMessage(msg) {
         var data = msg.data;
-        $("#messageArea").append(data + "<br/>");
+        var messageArea = $("#messageArea");
+
+        // 작성자와 사용자 구분하기
+        var isWriter = data.startsWith("[작성자:");
+        var isUser = data.startsWith("[사용자:");
+
+        // 작성자와 사용자에 따라 다른 스타일로 메시지 출력
+        if (isWriter || isUser) {
+            var label = isWriter ? "작성자: " : "사용자: ";
+            var color = isWriter ? "blue" : "green";
+            var message = "<span style='color: " + color + "; font-weight: bold;'>" + label + "</span>" + data.substring(data.indexOf("]") + 2);
+            messageArea.append(message + "<br/>");
+        } else {
+            messageArea.append(data + "<br/>");
+        }
     }
     // 서버와 연결을 끊었을 때
     function onClose(evt) {
         $("#messageArea").append("연결 끊김");
 
     }
+
+
 </script>
 </html>

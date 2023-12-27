@@ -1,8 +1,12 @@
     package com.bitstudy.app.controller;
 
+    import com.bitstudy.app.domain.BoardDTO;
     import com.bitstudy.app.domain.MemberDTO;
+    import com.bitstudy.app.service.BoardService;
     import com.bitstudy.app.service.MemberService;
     import org.apache.ibatis.annotations.Delete;
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
@@ -13,14 +17,20 @@
     import javax.servlet.http.HttpServletResponse;
     import javax.servlet.http.HttpSession;
     import java.net.URLEncoder;
+    import java.text.DateFormat;
+    import java.util.Date;
     import java.util.List;
+    import java.util.Locale;
 
     @Controller
     @RequestMapping("/member")
     public class MemberController {
+        private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
         @Autowired
         MemberService memberService;
+        @Autowired
+        BoardService boardService;
 
         /*회원 가입 기능*/
         @GetMapping("/join")
@@ -40,10 +50,27 @@
         }
 
 
-        /*로그인 기능*/
+        /*로그인/카카오로그인 기능*/
         @GetMapping("/login")
-        public String loginForm() {
+        public String loginForm(Locale locale, Model model) {
+            logger.info("Welcome home! The client locale is {}.", locale);
+
+            Date date = new Date();
+            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+            String formattedDate = dateFormat.format(date);
+
+            model.addAttribute("serverTime", formattedDate );
             return "login";
+        }
+        // 컨트롤러 메서드
+        @PostMapping("/kakaoLogin")
+        public @ResponseBody String kakaoLogin(@RequestParam("token") String token, HttpSession session) {
+
+            session.setAttribute("kakao_Name",token);
+
+            // 로그인 처리 후 성공이면 "success" 반환
+            return "success"; // 또는 "fail"
         }
 
         @PostMapping("/login")
@@ -104,6 +131,7 @@
         /*로그아웃 기능*/
         @GetMapping("/logout")
         public String logout(HttpSession session) {
+//            kakaoLogin.logout((String)session.getAttribute("access_token"));
             session.invalidate(); // 세션을 비워 로그아웃
             return "redirect:/"; // 로그아웃 후 홈페이지로 이동
         }
@@ -179,6 +207,21 @@
             }
 
         }
+        //내가 쓴 게시물 마이페이지..
+        @GetMapping("/board")
+        public String memberBoard(Model model,
+                                  HttpSession httpSession,
+                                  HttpServletRequest request) {
+            String userId = (String) httpSession.getAttribute("memberName");
+
+            //내 게시글 찾기
+            List<BoardDTO> boardDTOList = boardService.findBoardsByUserId(userId);
+            // 모델에 데이터 추가
+            model.addAttribute("boardDTOList", boardDTOList);
+
+            return "member_board";
+        }
+
 
         // 수정 처리
         @PostMapping("/update")

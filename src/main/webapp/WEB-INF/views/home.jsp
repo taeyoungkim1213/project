@@ -7,6 +7,7 @@
 <c:set var="loginEmail" value="${empty sessionScope.loginEmail ? '' : sessionScope.loginEmail}" />
 <c:set var="loginEmail" value="${ pageContext.request.getSession(false).getAttribute('loginEmail')==null?'':pageContext.request.getSession(false).getAttribute('loginEmail')}" />
 <c:set var="memberName" value="${ pageContext.request.getSession(false).getAttribute('memberName')==null?'':pageContext.request.getSession(false).getAttribute('memberName')}" />
+<c:set var="kakao_Name" value="${ pageContext.request.getSession(false).getAttribute('kakao_Name')==null?'':pageContext.request.getSession(false).getAttribute('kakao_Name')}" />
 
 <html>
 <head>

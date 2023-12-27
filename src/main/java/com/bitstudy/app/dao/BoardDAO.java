@@ -24,12 +24,12 @@ public class BoardDAO {
     }
 
     // 금액 오름차순으로 모든 게시글 조회
-    public List<BoardDTO> findAllBoardsOrderByPriceAsc() {
+    public List<BoardDTO> findAllBoardsOrderByPriceAsc(Map<String, Integer> pagingParams) {
         return sql.selectList("com.bitstudy.app.mapper.BoardMapper.findAllOrderByPriceAsc");
     }
 
     // 금액 내림차순으로 모든 게시글 조회
-    public List<BoardDTO> findAllBoardsOrderByPriceDesc() {
+    public List<BoardDTO> findAllBoardsOrderByPriceDesc(Map<String, Integer> pagingParams) {
         return sql.selectList("com.bitstudy.app.mapper.BoardMapper.findAllOrderByPriceDesc");
     }
 
@@ -76,6 +76,10 @@ public class BoardDAO {
         return sql.selectList("com.bitstudy.app.mapper.BoardMapper.pagingList", pagingParams);
     }
 
+    //내가 쓴 게시글 찾기
+    public List<BoardDTO> findBoardsByUserId(String userId) {
+        return sql.selectList("com.bitstudy.app.mapper.BoardMapper.findBoardsByUserId", userId);
+    }
 
 
 }
