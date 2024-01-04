@@ -1,6 +1,31 @@
 ﻿# project1
-# project
-o   int auto_increment
+# project DB
+create table accompany_comment
+(
+    accompanyCommentNo      int auto_increment
+        primary key,
+    accompanyNo             int                      not null,
+    accompanyCommentWriter  varchar(50)              not null,
+    accompanyCommentContent varchar(500)             not null,
+    accompanyCommentRegDate datetime default (now()) not null
+)
+    engine = InnoDB;
+
+create table accompany_connection
+(
+    accompanyConnectionNo int auto_increment
+        primary key,
+    accompanyNo           int                         not null,
+    accompanyTitle        varchar(255)                not null,
+    accompanyWriter       varchar(50)                 not null,
+    accompanyPickApyUser  varchar(50) default (now()) not null,
+    accompanyYN           tinyint(1)  default 0       not null
+)
+    engine = InnoDB;
+
+create table accompany_like
+(
+    accompanyLikeNo   int auto_increment
         primary key,
     accompanyNo       int         null,
     accompanyLikeUser varchar(50) null
@@ -131,3 +156,4 @@ create table user
     userRegDate datetime default (now()) null
 )
     engine = InnoDB;
+
