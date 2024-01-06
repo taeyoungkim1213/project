@@ -1,0 +1,122 @@
+/* Main Styles */
+.save_review_content_main {
+    width: 100%;
+    height: 1000px;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+
+/* Content Styles */
+.save_review_content {
+    width: 1300px;
+    margin: 0 auto;
+}
+
+.flex_con {
+    display: flex;
+    justify-content: space-between;
+}
+
+.con1,
+.con2 {
+    width: 48%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.con1 label,
+.con2 label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Wrap to the next line if space is not enough */
+}
+
+.input-group>div {
+    width: 48%;
+}
+
+.input-file {
+    display: none;
+}
+
+.board_title,
+.board_price,
+.boardContents {
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.status_selection select {
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.board_content textarea {
+    width: 100%;
+    height: 200px;
+    font-size: 18px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/* Buttons Styles */
+.submit_btn_or_cancel_btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save_review_content_btn,
+.cancel_review_content_btn {
+    width: 48%;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* File Upload Styles */
+#image_container {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    text-align: center;
+    line-height: 280px;
+    background-color: lightgray;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+#image_container img {
+    width: 90%;
+    height: 90%;
+    overflow: hidden;
+    border-radius: 15px;
+    transform: translate(0%, 6%);
+}
+
+.file-upload-btn1 {
+    width: 100%;
+    display: block;
+    height: 12%;
+    text-align: center;
+    line-height: 243%;
+    cursor: pointer;
+    background-color: #87C4FF;
+    border-radius: 0 0 15px 15px;
+    color: #fff;
+}

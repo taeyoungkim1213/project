@@ -10,93 +10,70 @@
 <html>
 <head>
     <title>글작성</title>
-
+    <link rel="stylesheet" href="<c:url value='/css/board_save.css' />">
     <link rel="stylesheet" href="<c:url value='/css/header.css' />">
     <link rel="stylesheet" href="<c:url value='/css/common.css' />">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<header>
-    <div class="header_left">
-        <a href="<c:url value='/'/> "><img src="<c:url value='/img/커뮤니티로고.png' />" alt=""></a></div>
-    <div class="header_mid"><h1><a href="/">FREE COMUNITY</a></h1></div>
-    <div class="header_right">
-        <ul>
-            <%-- 로그인이 되어 있을 때 --%>
-            <c:if test="${not empty sessionScope.loginEmail}">
-               <li>${memberName}님 환영합니다</li>
-            </c:if>
-            <%-- 로그인이 안 되어 있을 때 --%>
-            <c:if test="${empty sessionScope.loginEmail}">
-                <li>로그인을 해주세요</li>
-            </c:if>
-            <li><a href="<c:url value='${ logInOutLink }' />">${ logInOutTxt }</a></li>
-            <!-- 로그인 되있으면 로그아웃. -->
+<div id="wrap">
+    <jsp:include page="include/header.jsp" flush="false" />
 
-            <a href="<c:url value='/member/join' /> "><li  class="b_r_h">회원가입</li></a>
-        </ul>
-    </div>
-</header>
-<nav>
-    <ul>
-        <a href="<c:url value='/board/'/> "><li>커뮤니티 게시판</li></a>
-        <a href="<c:url value='/board/popul'/> "><li>인기글 보기</li></a>
-        <!-- 로그인 됬을떄 보이게 -->
-        <a href="<c:url value='/member/update'/> "><li>마이페이지</li></a>
-        <!-- 관리자한테는 회원정보리스트 보이게 -->
-        <c:if test="${loginEmail eq 'admin@admin.com'}">
-            <a href="<c:url value='/member/admin'/> "><li>관리자페이지</li></a>
-        </c:if>
-    </ul>
-</nav>
+    <main style="width: 100%;/* height: 1000px; */border: 1px solid;box-sizing: border-box;padding: 25px;box-sizing: border-box;">
+        <div class="save_review_content">
+            <form action="/board/save" id="frm" method="post" enctype="multipart/form-data">
+                <div class="info">
+                    <input type="hidden" name="boardWriter" readonly value="${memberName}">
+                </div>
+                <div class="flex_con">
+                    <!-- Content Section 1 -->
+                    <div class="con1">
+                        <label for="file-upload1" class="file-upload-btn1">
+                            <p>상품 이미지 업로드</p>
+                        </label>
+                        <div id="image_container">
+                            <p id="image_container_txt">판매 상품 이미지를 선택해주세요</p>
+                        </div>
+                        <input type="file" name="imageFile" id="file-upload1" class="input-file" multiple
+                               onchange="checkFile(event);">
+                        <div class="input-group">
 
-<div class="save_review_content" id="save_review_content">
-    <form action="/board/save" id="frm" method="post" enctype="multipart/form-data">
-        <div class="info">
-            <!-- 작성자 정보 -->
-            <input type="hidden" name="boardWriter" readonly value="${memberName}">
-            <b class="writer_u">작성자 : ${memberName}</b>
+                            <div class="status_selection">
+                                <label for="saleStatus">판매 상태:</label>
+                                <select name="saleStatus" id="saleStatus">
+                                    <option value="판매중">판매중</option>
+                                </select>
+                            </div>
+                            <div class="save_review_content_write_title">
+                                <label for="boardPrice">상품 가격</label>
+                                <input type="text" name="boardPrice" id="boardPrice" class="board_price"
+                                       placeholder="ex) 20000">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Content Section 2 -->
+                    <div class="con2">
+                        <div class="save_review_content_write_title">
+                            <label for="boardTitle">제목</label>
+                            <input type="text" name="boardTitle" id="boardTitle" class="board_title"
+                                   placeholder="제목">
+                        </div>
+                        <hr>
+                        <div class="board_content">
+                            <label for="boardContents">내용</label>
+                            <textarea name="boardContents" id="boardContents" class="boardContents"
+                                      placeholder="게시글 내용을 작성해 주세요" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit_btn_or_cancel_btn">
+                    <input type="submit" class="save_review_content_btn" value="작성">
+                    <input type="submit" class="cancel_review_content_btn" value="취소">
+                </div>
+            </form>
         </div>
-        <!-- 게시글 작성 폼 -->
-        <div class="flex_con">
-            <div class="con1">
-                <div class="save_review_content_write_title">
-                    <span>제목</span>
-                    <input type="text" name="boardTitle" class="board_title" placeholder="게시글 제목">
-                </div>
-                <div class="status_selection">
-                    <label for="saleStatus">판매 상태:</label>
-                    <select name="saleStatus" id="saleStatus">
-                        <option value="판매중">판매중</option>
-<%--                        <option value="거래완료">거래완료</option>--%>
-                    </select>
-                </div>
-                <!-- 이미지 업로드 -->
-                <div id="image_container">
-                    <p id="image_container_txt">판매 상품 이미지를 선택해주세요</p>
-                </div>
-                <label for="file-upload1" class="file-upload-btn1">
-                    <p>상품 이미지 업로드</p>
-                </label>
-                <input type="file" name="imageFile" id="file-upload1" class="input-file" multiple onchange="checkFile(event);">
-            </div>
-            <div class="save_review_content_write_title">
-                <span>상품 가격</span>
-                <input type="text" name="boardPrice" class="board_title" placeholder="ex) 20000">
-            </div>
-            <div class="con2">
-                <hr>
-                <div class="board_content">
-                    <span>내용</span>
-                    <textarea name="boardContents" class="boardContents" cols="30" rows="10" placeholder="게시글 내용을 작성해 주세요"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="submit_btn_or_cancel_btn">
-            <input type="submit" class="save_review_content_btn" value="작성">
-            <input type="submit" class="cancel_review_content_btn" value="취소">
-        </div>
-    </form>
+    </main>
+    <jsp:include page="include/footer.jsp" flush="false" />
 </div>
 <script>
 <%--    이미지미리보기--%>

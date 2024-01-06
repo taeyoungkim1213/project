@@ -60,6 +60,7 @@
         </header>
         <nav>
             <ul>
+                <li><a href="<c:url value='/board/save/'/> ">판매하기</a></li>
                 <li><a href="<c:url value='/board/'/> ">중고 상품 보기</a></li>
                 <c:choose>
                     <c:when test="${empty sessionScope.loginEmail}">
